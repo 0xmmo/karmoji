@@ -22,9 +22,10 @@ web.users.list({limit: 1000})
 
 events.on('message', event => {
 
-  console.log('message received ',event);
+  console.log('#### message received ',event);
 
   if(event.channel_type === 'im' || !event.text || !event.channel || !event.user) return;
+  if(event.subtype && (event.subtype === 'bot_message' || event.subtype === 'message_changed')) return;
 
   let userIds = event.text.match(/<@[A-Z0-9]{9}>/g);
   const tacos = event.text.match(/:taco:/g);
@@ -33,7 +34,7 @@ events.on('message', event => {
   
   userIds.forEach(userId => {
 
-    console.log(userId+'has received a taco');
+    console.log('>>>>> '+userId+'has received a taco');
 
     const userFrom = event.user;
     const userTo = userId;
@@ -58,9 +59,10 @@ events.on('message', event => {
 
 events.on('app_mention', (event) => {
 
-  console.log('app mentioned ',event);
+  console.log('#### app mentioned ',event);
 
   if(!event.text || !event.channel || !event.user) return;
+  if(event.subtype && (event.subtype === 'bot_message' || event.subtype === 'message_changed')) return;
 
   const leaderboard = event.text.match(/leaderboard/g);
   if(!leaderboard || !leaderboard.length) return;
