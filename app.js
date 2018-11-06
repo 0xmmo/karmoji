@@ -22,13 +22,18 @@ web.users.list({limit: 1000})
 
 events.on('message', event => {
 
+  console.log('message received ',event);
+
   if(event.channel_type === 'im' || !event.text || !event.channel || !event.user) return;
 
-  const userIds = event.text.match(/<@[A-Z0-9]{9}>/g).map(wrapped => wrapped.replace('<@','').replace('>',''));
+  let userIds = event.text.match(/<@[A-Z0-9]{9}>/g);
   const tacos = event.text.match(/:taco:/g);
   if(!userIds || !userIds.length || !tacos || !tacos.length) return;
+  userIds = userIds.map(wrapped => wrapped.replace('<@','').replace('>',''));
   
   userIds.forEach(userId => {
+
+    console.log(userId+'has received a taco');
 
     const userFrom = event.user;
     const userTo = userId;
@@ -41,7 +46,7 @@ events.on('message', event => {
         text: `<@${userTo}> received a :taco: from <@${userFrom}>` 
       })
       .then(response => {
-        // console.log('Message sent: ', response.ts);
+        console.log('Message sent: ', response.ts);
       })
       .catch(console.error);
 
@@ -52,6 +57,8 @@ events.on('message', event => {
 });
 
 events.on('app_mention', (event) => {
+
+  console.log('app mentioned ',event);
 
   if(!event.text || !event.channel || !event.user) return;
 
