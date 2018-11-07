@@ -20,7 +20,16 @@ web.users.list({limit: 1000})
 })
 .catch(console.error);
 
+let eventTimestamps = [];
+
 events.on('message', event => {
+
+  // Event has been processed already
+  if(event.ts && eventTimestamps.filter(ts => ts === event.ts).length){
+    return;
+  }else{
+    eventTimestamps.push(event.ts);
+  }
 
   console.log('#### message received ',event);
 
@@ -34,11 +43,16 @@ events.on('message', event => {
   
   userIds.forEach(userId => {
 
-    console.log('>>>>> '+userId+'has received a taco');
+    console.log('>>>>> '+userId+' has received a taco');
 
     const userFrom = event.user;
     const userTo = userId;
     const channel = event.channel;
+
+    if(userFrom === userTo){
+      console.log('>>>>> '+userFrom+' no tacos for yourself');
+      return;
+    }
 
     db.addTaco(userFrom, userTo, channel, result => {
 
@@ -58,6 +72,13 @@ events.on('message', event => {
 });
 
 events.on('app_mention', (event) => {
+
+  // Event has been processed already
+  if(event.ts && eventTimestamps.filter(ts => ts === event.ts).length){
+    return;
+  }else{
+    eventTimestamps.push(event.ts);
+  }
 
   console.log('#### app mentioned ',event);
 
