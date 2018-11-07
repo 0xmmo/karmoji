@@ -7,121 +7,130 @@ const find = require('lodash/find');
 const sortBy = require('lodash/sortBy');
 const reverse = require('lodash/reverse');
 const pad = require('pad');
-const { createEventAdapter } = require('@slack/events-api');
-const { WebClient } = require('@slack/client');
+const {createEventAdapter} = require('@slack/events-api');
+const {WebClient} = require('@slack/client');
 const events = createEventAdapter(secret);
 const web = new WebClient(token);
 
 // Get all users on app start
 let users = [];
 web.users.list({limit: 1000})
-.then(response =>{
+.then((response) =>{
   users = response.members;
 })
 .catch(console.error);
 
-let eventTimestamps = [];
-
-events.on('message', event => {
-
+let messageTimestamps = [];
+events.on('message', (event) => {
   // Event has been processed already
-  if(event.ts && eventTimestamps.filter(ts => ts === event.ts).length){
+  if (event.event_ts && messageTimestamps.filter((ts) => ts === event.ts).length) {
     return;
-  }else{
-    eventTimestamps.push(event.ts);
+  } else {
+    messageTimestamps.push(event.ts);
   }
 
-  console.log('#### message received ',event);
+  if (event.channel_type === 'im' || !event.text || !event.channel || !event.user || event.edited) return;
+  if (event.subtype && (event.subtype === 'bot_message' || event.subtype === 'message_changed')) return;
 
-  if(event.channel_type === 'im' || !event.text || !event.channel || !event.user) return;
-  if(event.subtype && (event.subtype === 'bot_message' || event.subtype === 'message_changed')) return;
+  console.log('#### message received ', event);
 
   let userIds = event.text.match(/<@[A-Z0-9]{9}>/g);
   const tacos = event.text.match(/:taco:/g);
-  if(!userIds || !userIds.length || !tacos || !tacos.length) return;
-  userIds = userIds.map(wrapped => wrapped.replace('<@','').replace('>',''));
-  
-  userIds.forEach(userId => {
+  if (!userIds || !userIds.length || !tacos || !tacos.length) return;
+  userIds = userIds.map((wrapped) => wrapped.replace('<@', '').replace('>', ''));
 
+  userIds.forEach((userId) => {
     console.log('>>>>> '+userId+' has received a taco');
 
     const userFrom = event.user;
     const userTo = userId;
     const channel = event.channel;
 
-    if(userFrom === userTo){
+    if (userFrom === userTo) {
       console.log('>>>>> '+userFrom+' no tacos for yourself');
       return;
     }
 
-    db.addTaco(userFrom, userTo, channel, result => {
-
-      web.chat.postMessage({ 
-        channel: event.channel, 
-        text: `<@${userTo}> received a :taco: from <@${userFrom}>` 
+    db.addTaco(userFrom, userTo, channel, (result) => {
+      web.chat.postMessage({
+        channel: event.channel,
+        text: `<@${userTo}> received a :taco: from <@${userFrom}>`,
       })
-      .then(response => {
-        console.log('Message sent: ', response.ts);
+      .then((response) => {
+        console.log('taco message sent: ', response.ts);
       })
       .catch(console.error);
-
     });
-
   });
-
 });
 
+let mentionTimestamps = [];
 events.on('app_mention', (event) => {
-
   // Event has been processed already
-  if(event.ts && eventTimestamps.filter(ts => ts === event.ts).length){
+  if (event.ts && mentionTimestamps.filter((ts) => ts === event.ts).length) {
     return;
-  }else{
-    eventTimestamps.push(event.ts);
+  } else {
+    mentionTimestamps.push(event.ts);
   }
 
-  console.log('#### app mentioned ',event);
+  if (!event.text || !event.channel || !event.user || event.edited) return;
+  if (event.subtype && (event.subtype === 'bot_message' || event.subtype === 'message_changed')) return;
 
-  if(!event.text || !event.channel || !event.user) return;
-  if(event.subtype && (event.subtype === 'bot_message' || event.subtype === 'message_changed')) return;
+  console.log('#### app mentioned ', event);
 
   const leaderboard = event.text.match(/leaderboard/g);
-  if(!leaderboard || !leaderboard.length) return;
+  const rain = event.text.match(/make it rain/g);
 
-  db.getAllTacosByUser( result => {
+  if (leaderboard){
 
-    let scores = {};
-    result.forEach(taco => {
-      if(!scores[taco.userTo]) scores[taco.userTo] = 0;
-      scores[taco.userTo] += 1;
+    db.getAllTacosByUser( (result) => {
+      let scores = {};
+      result.forEach((taco) => {
+        if (!scores[taco.userTo]) scores[taco.userTo] = 0;
+        scores[taco.userTo] += 1;
+      });
+
+      let unsortedUsers = [];
+      for (let userId in scores) {
+        if (!scores.hasOwnProperty(userId)) continue;
+        let user = find(users, {id: userId});
+        user.score = scores[userId];
+        unsortedUsers.push(user);
+      }
+
+      const sortedUsers = reverse(sortBy(unsortedUsers, ['score']));
+
+      let leaderboard = 'Here\'s the all time :taco: leaderboard\n```';
+      sortedUsers.forEach((user) => {
+        leaderboard += `\n@${pad(user.name, 20)} ${user.score}`;
+      });
+      leaderboard += '\n```';
+
+      web.chat.postMessage({
+        channel: event.channel,
+        text: leaderboard,
+      })
+      .then((response) => {
+        console.log('leaderboard message sent: ', response.ts);
+      })
+      .catch(console.error);
     });
 
-    let unsortedUsers = [];
-    for(let userId in scores){
-      if (!scores.hasOwnProperty(userId)) continue;
-      let user = find(users,{id:userId});
-      user.score = scores[userId];
-      unsortedUsers.push(user);
-    }
+  }else if(rain){
 
-    const sortedUsers = reverse(sortBy(unsortedUsers,['score']));
-
-    let leaderboard = 'Here\'s the all time :taco: leaderboard\n```';
-    sortedUsers.forEach(user => {
-      leaderboard += `\n@${pad(user.name,20)} ${user.score}`
+    web.chat.postMessage({
+      channel: event.channel,
+      attachments: [{
+        fallback: 'Dancing Taco GIF',
+        image_url: 'https://media.giphy.com/media/pYCdxGyLFSwgw/giphy.gif',
+      }]
     })
-    leaderboard += '\n```';
-
-    web.chat.postMessage({ 
-      channel: event.channel, 
-      text: leaderboard, 
-    })
-    .then(response => {
-      // console.log('Message sent: ', response.ts);
+    .then((response) => {
+      console.log('taco message sent: ', response.ts);
     })
     .catch(console.error);
-
-  });
+    
+  }
 
 });
 
