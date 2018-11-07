@@ -102,7 +102,9 @@ events.on('app_mention', (event) => {
 
       let leaderboard = 'Here\'s the all time :taco: leaderboard\n```';
       sortedUsers.forEach((user) => {
-        leaderboard += `\n@${pad(user.name, 20)} ${user.score}`;
+        let name = user.name;
+        if(user.name === 'taco') name = 'tacorico';
+        leaderboard += `\n@${pad(name, 20)} ${user.score}`;
       });
       leaderboard += '\n```';
 
@@ -129,7 +131,7 @@ events.on('app_mention', (event) => {
       console.log('taco message sent: ', response.ts);
     })
     .catch(console.error);
-    
+
   }
 
 });
