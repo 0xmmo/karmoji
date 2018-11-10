@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app",
-    "test": "nodemon app"
+    "test": "nodemon app",
+    "lint": "prettier --write '*.js' && eslint --fix '*.js'"
   },
   "author": "",
   "license": "ISC",
@@ -16,5 +17,9 @@
     "mongodb": "^2.2.10",
     "mongoskin": "^2.1.0",
     "pad": "^2.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "prettier": "1.15.1"
   }
 }
