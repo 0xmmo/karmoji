@@ -40,6 +40,8 @@ listen.mention((event) => {
 
   if (find.rain(text)) send.reaction.rain(channel);
   if (find.dance(text)) send.reaction.dance(channel);
+  if (find.goodbot(text)) send.reaction.yey(channel);
+  if (find.badbot(text)) send.reaction.sadpanda(channel);
 
   return listen.answer;
 });

@@ -53,5 +53,13 @@ module.exports.reaction = {
   dance: function(channel) {
     const url = 'https://media.giphy.com/media/b5WqMx1eiFv6U/giphy.gif';
     return image(channel, url);
+  },
+  yey: function(channel) {
+    const text = ':yey:';
+    return message(channel, text);
+  },
+  sadpanda: function(channel) {
+    const text = ':sadpanda:';
+    return message(channel, text);
   }
 };
