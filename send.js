@@ -61,5 +61,9 @@ module.exports.reaction = {
   sadpanda: function(channel) {
     const text = ':sadpanda:';
     return message(channel, text);
+  },
+  everyone: function(channel) {
+    const url = 'https://i.imgur.com/4Ldx8uf.jpg';
+    return image(channel, url);
   }
 };

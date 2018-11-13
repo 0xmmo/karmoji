@@ -19,6 +19,8 @@ listen.message((event) => {
 
   if (!users.length || !tacos.length) return false;
 
+  if (users.length >= 3) send.reaction.everyone(channel);
+
   users.forEach((userTo) => {
     if (userFrom === userTo) return;
 
