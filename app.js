@@ -24,7 +24,7 @@ listen.message((event) => {
   users.forEach((userTo) => {
     if (userFrom === userTo) return;
 
-    db.addTaco(channel, userFrom, userTo, () => {
+    db.add.taco(channel, userFrom, userTo, () => {
       send.confirmation.taco(channel, userFrom, userTo);
     });
   });
@@ -35,7 +35,7 @@ listen.message((event) => {
 listen.mention((event) => {
   const {text, channel} = event;
 
-  if (find.leaderboard(text)) db.getAllTacos((tacos) => {
+  if (find.leaderboard(text)) db.get.all.tacos((tacos) => {
       const users = utils.countTacosByUser(members, tacos);
       send.leaderboard(channel, users);
     });

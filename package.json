@@ -1,7 +1,7 @@
 {
-  "name": "taco",
+  "name": "karmabot",
   "version": "1.0.0",
-  "description": "Taco karma bot",
+  "description": "karma bot",
   "main": "app.js",
   "scripts": {
     "start": "node app",
