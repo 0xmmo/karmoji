@@ -17,6 +17,16 @@ const base = {
         if (err) throw err;
         callback(result);
       });
+  },
+  getPeriodFromCollection: function(collection, start, callback) {
+    db.collection(collection)
+      .find({
+        time: {$gte: start}
+      })
+      .toArray((err, result) => {
+        if (err) throw err;
+        callback(result);
+      });
   }
 };
 
@@ -35,10 +45,16 @@ module.exports.add = {
   }
 };
 
-module.exports.get = {
-  all: {
-    tacos: function(callback) {
-      base.getAllFromCollection('tacos', callback);
+module.exports.get = (collection) => ({
+  all: () => ({
+    do: function(callback) {
+      base.getAllFromCollection(collection, callback);
     }
-  }
-};
+  }),
+  days: (days) => ({
+    do: function(callback) {
+      const start = new Date(new Date() - days * 60 * 60 * 24 * 1000);
+      base.getPeriodFromCollection(collection, start, callback);
+    }
+  })
+});

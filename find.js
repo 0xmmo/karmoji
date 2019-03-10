@@ -16,6 +16,21 @@ module.exports.leaderboard = function(tExT) {
   return Boolean(text.match(/leaderboard/g));
 };
 
+module.exports.all = function(tExT) {
+  const text = tExT.toLowerCase();
+  return Boolean(text.match(/all/g)) || Boolean(text.match(/all time/g));
+};
+
+module.exports.year = function(tExT) {
+  const text = tExT.toLowerCase();
+  return Boolean(text.match(/year/g));
+};
+
+module.exports.week = function(tExT) {
+  const text = tExT.toLowerCase();
+  return Boolean(text.match(/week/g));
+};
+
 module.exports.rain = function(tExT) {
   const text = tExT.toLowerCase();
   return Boolean(text.match(/make it rain/g));

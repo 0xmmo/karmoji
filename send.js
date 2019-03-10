@@ -35,7 +35,7 @@ module.exports.confirmation = {
 };
 
 module.exports.leaderboard = function(channel, users) {
-  let leaderboard = 'Here\'s the all time :taco: leaderboard\n```';
+  let leaderboard = 'Here\'s the :taco: leaderboard\n```';
   users.forEach((user) => {
     let name = user.name;
     if (user.name === 'taco') name = 'tacorico';
