@@ -17,17 +17,17 @@ listen.message((event) => {
   const users = find.users(text);
   const tacos = find.tacos(text);
 
-  if (!users.length || !tacos.length) return false;
+  tacos.forEach(()=>{
+    users.forEach((userTo) => {
+      if (userFrom === userTo) return;
 
-  if (users.length >= 3) send.reaction.everyone(channel);
-
-  users.forEach((userTo) => {
-    if (userFrom === userTo) return;
-
-    db.add.taco(channel, userFrom, userTo, () => {
-      send.confirmation.taco(channel, userFrom, userTo);
+      db.add.taco(channel, userFrom, userTo, () => {
+        send.confirmation.taco(channel, userFrom, userTo);
+      });
     });
   });
+
+  if (users.length >= 3) send.reaction.everyone(channel);
 
   return listen.answer;
 });
