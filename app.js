@@ -38,24 +38,34 @@ listen.message((event) => {
 listen.mention((event) => {
   const {text, channel} = event;
 
+  let period = '';
   const post = (tacos) => {
     const users = utils.countTacosByUser(members, tacos);
-    send.leaderboard(channel, users);
+    send.leaderboard(channel, users, period);
   };
 
   if (find.leaderboard(text)) {
-    if (find.all(text)) db.get('tacos')
+    if (find.all(text)) {
+      period = 'all time';
+      db.get('tacos')
         .all()
         .do(post);
-    else if (find.year(text)) db.get('tacos')
+    } else if (find.year(text)) {
+      period = 'last 365 day';
+      db.get('tacos')
         .days(365)
         .do(post);
-    else if (find.week(text)) db.get('tacos')
+    } else if (find.week(text)) {
+      period = 'last 7 day';
+      db.get('tacos')
         .days(7)
         .do(post);
-    else db.get('tacos')
+    } else {
+      period = 'last 30 day';
+      db.get('tacos')
         .days(30)
         .do(post);
+    }
   }
 
   if (find.rain(text)) send.reaction.rain(channel);
