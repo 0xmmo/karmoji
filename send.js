@@ -34,8 +34,8 @@ module.exports.confirmation = {
   }
 };
 
-module.exports.leaderboard = function(channel, users) {
-  let leaderboard = 'Here\'s the all time :taco: leaderboard\n```';
+module.exports.leaderboard = function(channel, users, period) {
+  let leaderboard = `Here's the ${period || ''} :taco: leaderboard\n\`\`\``;
   users.forEach((user) => {
     let name = user.name;
     if (user.name === 'taco') name = 'tacorico';

@@ -17,7 +17,7 @@ listen.message((event) => {
   const users = find.users(text);
   const tacos = find.tacos(text);
 
-  tacos.forEach(()=>{
+  tacos.forEach(() => {
     users.forEach((userTo) => {
       if (userFrom === userTo) return;
 
@@ -29,16 +29,44 @@ listen.message((event) => {
 
   if (users.length >= 3) send.reaction.everyone(channel);
 
+  // Only consider request answered if tacos are given to users
+  if (!users.length || !tacos.length) return false;
+
   return listen.answer;
 });
 
 listen.mention((event) => {
   const {text, channel} = event;
 
-  if (find.leaderboard(text)) db.get.all.tacos((tacos) => {
-      const users = utils.countTacosByUser(members, tacos);
-      send.leaderboard(channel, users);
-    });
+  let period = '';
+  const post = (tacos) => {
+    const users = utils.countTacosByUser(members, tacos);
+    send.leaderboard(channel, users, period);
+  };
+
+  if (find.leaderboard(text)) {
+    if (find.all(text)) {
+      period = 'all time';
+      db.get('tacos')
+        .all()
+        .do(post);
+    } else if (find.year(text)) {
+      period = 'last 365 day';
+      db.get('tacos')
+        .days(365)
+        .do(post);
+    } else if (find.week(text)) {
+      period = 'last 7 day';
+      db.get('tacos')
+        .days(7)
+        .do(post);
+    } else {
+      period = 'last 30 day';
+      db.get('tacos')
+        .days(30)
+        .do(post);
+    }
+  }
 
   if (find.rain(text)) send.reaction.rain(channel);
   if (find.dance(text)) send.reaction.dance(channel);
