@@ -29,6 +29,9 @@ listen.message((event) => {
 
   if (users.length >= 3) send.reaction.everyone(channel);
 
+  // Only consider request answered if tacos are given to users
+  if (!users.length || !tacos.length) return false;
+
   return listen.answer;
 });
 
