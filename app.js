@@ -27,7 +27,7 @@ listen.message((event) => {
     });
   });
 
-  if (users.length >= 3) send.reaction.everyone(channel);
+  if (users.length >= 3 && tacos.length) send.reaction.everyone(channel);
 
   // Only consider request answered if tacos are given to users
   if (!users.length || !tacos.length) return false;
