@@ -16,6 +16,7 @@ listen.message((event) => {
 
   const users = find.users(text);
   const tacos = find.tacos(text);
+  const negateTacos = find.negateTacos(text);
 
   tacos.forEach(() => {
     users.forEach((userTo) => {
@@ -27,10 +28,20 @@ listen.message((event) => {
     });
   });
 
+  negateTacos.forEach(() => {
+    user.ForEach((userTo) => {
+      if (userFrom === userTo) return;
+
+      db.sub.taco(channel, userTo, () => {
+        send.confirmation.taco(channel, userFrom, userTo);
+      });
+    });
+  });
+
   if (users.length >= 3 && tacos.length) send.reaction.everyone(channel);
 
   // Only consider request answered if tacos are given to users
-  if (!users.length || !tacos.length) return false;
+  if (!users.length || !tacos.length || !negateTacos.length) return false;
 
   return listen.answer;
 });

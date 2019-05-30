@@ -27,7 +27,14 @@ const base = {
         if (err) throw err;
         callback(result);
       });
-  }
+  },
+  removeEntryFromCollection: function(collection, filter, callback) {
+    const writeResult = db.collection(collection)
+      .remove({ userTo }, true);
+    if (writeResult.writeConcernError) {
+        callback(writeResult.writeConcernError.errmsg);
+    }
+  },
 };
 
 module.exports.add = {
@@ -41,6 +48,18 @@ module.exports.add = {
         time: new Date()
       },
       callback
+    );
+  }
+};
+
+module.exports.sub = {
+  taco: function(channel, userTo, callback) {
+    base.removeEntryFromCollection(
+       'tacos',
+      {
+       userTo
+      },
+       callback
     );
   }
 };
