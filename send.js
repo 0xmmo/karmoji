@@ -45,7 +45,17 @@ module.exports.confirmation = {
     'thumbsup',
     'boom',
     'tada',
-    'heart_eyes'
+    'heart_eyes',
+    'star-struck',
+    'muscle',
+    'clap',
+    'raised_hands',
+    'rocket',
+    'dark_sunglasses',
+    'confetti_ball',
+    'gift',
+    'trophy',
+    'mega'
   ]),
   index: 0,
   reaction(channel, messageTimestamp) {
