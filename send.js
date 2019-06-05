@@ -1,5 +1,6 @@
 const {WebClient} = require('@slack/client');
 const pad = require('pad');
+const _ = require('lodash');
 
 const token = process.env.SLACK_BOT_TOKEN;
 const web = new WebClient(token);
@@ -27,10 +28,30 @@ const image = function(channel, url) {
     .catch(console.error);
 };
 
+const reaction = function(channel, messageTimestamp, emoji) {
+  return web.reactions
+    .add({
+      channel,
+      timestamp: messageTimestamp,
+      name: emoji
+    })
+    .catch(console.error);
+};
+
 module.exports.confirmation = {
-  taco: function(channel, userFrom, userTo) {
-    const text = `<@${userTo}> received a :taco: from <@${userFrom}>`;
-    return message(channel, text);
+  emojis: _.shuffle([
+    'ok_hand',
+    'fire',
+    'thumbsup',
+    'boom',
+    'tada',
+    'heart_eyes'
+  ]),
+  index: 0,
+  reaction(channel, messageTimestamp) {
+    const emoji = this.emojis[this.index % this.emojis.length];
+    this.index += 1;
+    return reaction(channel, messageTimestamp, emoji);
   }
 };
 
@@ -45,7 +66,7 @@ module.exports.leaderboard = function(channel, users, period) {
   return message(channel, leaderboard);
 };
 
-module.exports.reaction = {
+module.exports.response = {
   rain: function(channel) {
     const url = 'https://media.giphy.com/media/pYCdxGyLFSwgw/giphy.gif';
     return image(channel, url);

@@ -44,7 +44,7 @@ module.exports = {
         allowKeywords: true
       }
     ],
-    "eol-last": ["error", "never"],
+    "eol-last": ["error", "always"],
     eqeqeq: "error",
     "func-call-spacing": "error",
     "func-name-matching": "error",
