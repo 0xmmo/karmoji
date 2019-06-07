@@ -12,7 +12,7 @@ get.members(1000).then((response) => {
 });
 
 listen.message((event) => {
-  const {text, channel, user: userFrom} = event;
+  const {text, channel, user: userFrom, ts} = event;
 
   const users = find.users(text);
   const tacos = find.tacos(text);
@@ -22,12 +22,12 @@ listen.message((event) => {
       if (userFrom === userTo) return;
 
       db.add.taco(channel, userFrom, userTo, () => {
-        send.confirmation.taco(channel, userFrom, userTo);
+        send.confirmation.reaction(channel, ts);
       });
     });
   });
 
-  if (users.length >= 3 && tacos.length) send.reaction.everyone(channel);
+  if (users.length >= 3 && tacos.length) send.response.everyone(channel);
 
   // Only consider request answered if tacos are given to users
   if (!users.length || !tacos.length) return false;
@@ -68,10 +68,10 @@ listen.mention((event) => {
     }
   }
 
-  if (find.rain(text)) send.reaction.rain(channel);
-  if (find.dance(text)) send.reaction.dance(channel);
-  if (find.goodbot(text)) send.reaction.yey(channel);
-  if (find.badbot(text)) send.reaction.sadpanda(channel);
+  if (find.rain(text)) send.response.rain(channel);
+  if (find.dance(text)) send.response.dance(channel);
+  if (find.goodbot(text)) send.response.yey(channel);
+  if (find.badbot(text)) send.response.sadpanda(channel);
 
   return listen.answer;
 });
