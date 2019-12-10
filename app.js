@@ -72,6 +72,7 @@ listen.mention((event) => {
   if (find.dance(text)) send.response.dance(channel);
   if (find.goodbot(text)) send.response.yey(channel);
   if (find.badbot(text)) send.response.sadpanda(channel);
+  if (find.dice(text)) send.response.dice(channel);
 
   return listen.answer;
 });

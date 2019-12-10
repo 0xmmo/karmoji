@@ -96,5 +96,9 @@ module.exports.response = {
   everyone: function(channel) {
     const url = 'https://i.imgur.com/4Ldx8uf.jpg';
     return image(channel, url);
-  }
+  },
+  dice: function(channel) {
+    const text = `:game_die: *${Math.ceil(Math.random()*6)}* :game_die:`;
+    return message(channel, text);
+  },
 };

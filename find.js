@@ -41,6 +41,16 @@ module.exports.dance = function(tExT) {
   return Boolean(text.match(/dance/g));
 };
 
+module.exports.dice = function(tExT) {
+  const text = tExT.toLowerCase();
+  return (
+    Boolean(text.match(/roll die/g)) ||
+    Boolean(text.match(/roll a die/g)) ||
+    Boolean(text.match(/dice/g)) ||
+    Boolean(text.match(/:game_die:/g))
+  );
+};
+
 module.exports.goodbot = function(tExT) {
   const text = tExT.toLowerCase();
   return (
