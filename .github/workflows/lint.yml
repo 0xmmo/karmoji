@@ -12,6 +12,6 @@ jobs:
     - uses: actions/checkout@v2.0.0
     - run: npm install
     - name: Prettier
-      run: prettier '*.js'
+      run: npx prettier --list-different '*.js'
     - name: ESLint
-      run: eslint '*.js'
+      run: npx eslint '*.js'
