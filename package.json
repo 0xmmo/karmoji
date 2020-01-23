@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app",
     "test": "nodemon app",
-    "lint": "prettier --write '*.js' && eslint --fix '*.js'"
+    "lint:fix": "prettier --write '*.js' && eslint --fix '*.js'"
   },
   "author": "",
   "license": "ISC",
