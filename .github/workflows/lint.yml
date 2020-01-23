@@ -1,3 +1,5 @@
+name: Code Style
+
 on:
   pull_request:
     branches:
@@ -8,7 +10,8 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2.0.0
-    - name: npm run lint
-      run: |
-        npm install
-        npm run lint
+    - run: npm install
+    - name: Prettier
+      run: prettier '*.js'
+    - name: ESLint
+      run: eslint '*.js'
