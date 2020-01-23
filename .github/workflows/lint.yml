@@ -1,12 +1,12 @@
-name: Lint
+name: Git Checks
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
-  block-lint:
+  block-fixup:
     runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v2.0.0
-    - name: npm run lint
-      run: npm run lint
+    - name: Block Fixup Commit Merge
+      uses: 13rac1/block-fixup-merge-action@v1.1.1
