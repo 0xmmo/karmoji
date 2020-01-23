@@ -1,14 +1,12 @@
 name: Lint
 
-on:
-  pull_request:
-    branches:
-    - master
+on: [push]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  block-lint:
+    runs-on: ubuntu-18.04
+
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2.0.0
     - name: npm run lint
       run: npm run lint
