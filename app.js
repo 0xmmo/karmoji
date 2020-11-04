@@ -17,7 +17,7 @@ listen.message((event) => {
   const users = find.users(text);
   const tacos = find.tacos(text);
 
-  tacos.forEach(() => {
+  if (tacos.length) {
     users.forEach((userTo) => {
       if (userFrom === userTo) return;
 
@@ -25,7 +25,7 @@ listen.message((event) => {
         send.confirmation.reaction(channel, ts);
       });
     });
-  });
+  }
 
   if (users.length >= 3 && tacos.length) send.response.everyone(channel);
 
