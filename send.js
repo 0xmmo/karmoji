@@ -65,8 +65,13 @@ module.exports.confirmation = {
   }
 };
 
-module.exports.notsureif = function notsureif(channel, messageTimestamp) {
-  return reaction(channel, messageTimestamp, 'notsureif');
+module.exports.negatacoConfirmation = function negatacoConfirmation(
+  channel,
+  messageTimestamp
+) {
+  const emojis = ['notsureif', 'coneofshame', 'wat', 'wutlol'];
+  const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+  return reaction(channel, messageTimestamp, emoji);
 };
 
 module.exports.leaderboard = function(channel, users, period) {
