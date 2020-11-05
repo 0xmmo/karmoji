@@ -43,10 +43,10 @@ const scores = [
   ["UCXTDK8F5", 1],
   ["UDR3UE79B", 1],
   ["U9218HBT2", 1],
-  ["UA0HUM75E", 1],
+  ["UA0HUM75E", 1]
 ];
 
-scores.forEach((s) => {
+scores.forEach(s => {
   const userTo = s[0];
   const score = s[1];
   const channel = null;

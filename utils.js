@@ -2,7 +2,7 @@ const _ = require("lodash");
 
 module.exports.countTacosByUser = function(members, tacos) {
   const scores = {};
-  tacos.forEach((taco) => {
+  tacos.forEach(taco => {
     if (!scores[taco.userTo]) scores[taco.userTo] = 0;
     scores[taco.userTo] += 1;
   });

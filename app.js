@@ -7,18 +7,18 @@ const utils = require("./utils");
 
 // Get all workspace members on app start
 const members = [];
-get.members(1000).then((response) => {
+get.members(1000).then(response => {
   members.push(...response.members);
 });
 
-listen.message((event) => {
+listen.message(event => {
   const { text, channel, user: userFrom, ts } = event;
 
   const users = find.users(text);
   const tacos = find.tacos(text);
 
   tacos.forEach(() => {
-    users.forEach((userTo) => {
+    users.forEach(userTo => {
       if (userFrom === userTo) return;
 
       db.add.taco(channel, userFrom, userTo, () => {
@@ -36,11 +36,11 @@ listen.message((event) => {
 });
 
 // eslint-disable-next-line max-statements
-listen.mention((event) => {
+listen.mention(event => {
   const { text, channel } = event;
 
   let period = "";
-  const post = (tacos) => {
+  const post = tacos => {
     const users = utils.countTacosByUser(members, tacos);
     send.leaderboard(channel, users, period);
   };

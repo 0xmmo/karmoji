@@ -9,7 +9,7 @@ const message = function(channel, text) {
   return web.chat
     .postMessage({
       channel,
-      text,
+      text
     })
     .catch(console.error);
 };
@@ -21,9 +21,9 @@ const image = function(channel, url) {
       attachments: [
         {
           fallback: "",
-          image_url: url,
-        },
-      ],
+          image_url: url
+        }
+      ]
     })
     .catch(console.error);
 };
@@ -33,7 +33,7 @@ const reaction = function(channel, messageTimestamp, emoji) {
     .add({
       channel,
       timestamp: messageTimestamp,
-      name: emoji,
+      name: emoji
     })
     .catch(console.error);
 };
@@ -55,19 +55,19 @@ module.exports.confirmation = {
     "confetti_ball",
     "gift",
     "trophy",
-    "mega",
+    "mega"
   ]),
   index: 0,
   reaction(channel, messageTimestamp) {
     const emoji = this.emojis[this.index % this.emojis.length];
     this.index += 1;
     return reaction(channel, messageTimestamp, emoji);
-  },
+  }
 };
 
 module.exports.leaderboard = function(channel, users, period) {
   let leaderboard = `Here's the ${period || ""} :taco: leaderboard\n\`\`\``;
-  users.forEach((user) => {
+  users.forEach(user => {
     let name = user.name;
     if (user.name === "taco") name = "tacorico";
     leaderboard += `\n@${pad(name, 20)} ${user.score}`;
@@ -100,5 +100,5 @@ module.exports.response = {
   dice: function(channel) {
     const text = `:game_die: *${Math.ceil(Math.random() * 6)}* :game_die:`;
     return message(channel, text);
-  },
+  }
 };

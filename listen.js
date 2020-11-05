@@ -10,7 +10,7 @@ const answer = Symbol("successful listen handler return");
 module.exports.answer = answer;
 
 module.exports.message = function(handler) {
-  events.on("message", (event) => {
+  events.on("message", event => {
     if (
       !event.text ||
       !event.channel ||
@@ -19,7 +19,7 @@ module.exports.message = function(handler) {
       event.channel_type === "im" ||
       event.subtype === "bot_message" ||
       event.subtype === "message_changed" ||
-      answered.filter((ts) => ts === event.ts).length
+      answered.filter(ts => ts === event.ts).length
     )
       return;
 
@@ -28,7 +28,7 @@ module.exports.message = function(handler) {
 };
 
 module.exports.mention = function(handler) {
-  events.on("app_mention", (event) => {
+  events.on("app_mention", event => {
     if (
       !event.text ||
       !event.channel ||
@@ -36,7 +36,7 @@ module.exports.mention = function(handler) {
       event.edited ||
       event.subtype === "bot_message" ||
       event.subtype === "message_changed" ||
-      answered.filter((ts) => ts === event.ts).length
+      answered.filter(ts => ts === event.ts).length
     )
       return;
 
