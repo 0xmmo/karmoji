@@ -16,23 +16,29 @@ listen.message((event) => {
 
   const users = find.users(text);
   const tacos = find.tacos(text);
+  const negatacos = find.negatacos(text);
 
-  if (tacos.length) {
-    users.forEach((userTo) => {
-      if (userFrom === userTo) return;
+  if (users.length) {
+    if (tacos.length) {
+      users.forEach((userTo) => {
+        if (userFrom === userTo) return;
 
-      db.add.taco(channel, userFrom, userTo, () => {
-        send.confirmation.reaction(channel, ts);
+        db.add.taco(channel, userFrom, userTo, () => {
+          send.confirmation.reaction(channel, ts);
+        });
       });
-    });
+
+      if (users.length >= 3) send.response.everyone(channel);
+    }
+
+    if (negatacos.length) {
+      send.notsureif(channel);
+    }
+    return listen.answer;
   }
 
-  if (users.length >= 3 && tacos.length) send.response.everyone(channel);
-
   // Only consider request answered if tacos are given to users
-  if (!users.length || !tacos.length) return false;
-
-  return listen.answer;
+  return false;
 });
 
 // eslint-disable-next-line max-statements

@@ -11,6 +11,12 @@ module.exports.tacos = function(tExT) {
   return matches ? matches : [];
 };
 
+module.exports.negatacos = function(tExT) {
+  const text = tExT.toLowerCase();
+  const matches = text.match(/:negataco:/g);
+  return matches ? matches : [];
+};
+
 module.exports.leaderboard = function(tExT) {
   const text = tExT.toLowerCase();
   return Boolean(text.match(/leaderboard/g));
