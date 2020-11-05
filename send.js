@@ -65,10 +65,7 @@ module.exports.confirmation = {
   }
 };
 
-module.exports.notsureif = function negatacoReaction(
-  channel,
-  messageTimestamp
-) {
+module.exports.notsureif = function notsureif(channel, messageTimestamp) {
   return reaction(channel, messageTimestamp, 'notsureif');
 };
 
