@@ -32,7 +32,7 @@ listen.message((event) => {
     }
 
     if (negatacos.length) {
-      send.notsureif(channel);
+      send.negatacoConfirmation(channel, ts);
     }
     return listen.answer;
   }
