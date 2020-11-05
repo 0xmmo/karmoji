@@ -35,6 +35,7 @@ listen.message((event) => {
   return listen.answer;
 });
 
+// eslint-disable-next-line max-statements
 listen.mention((event) => {
   const {text, channel} = event;
 

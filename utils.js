@@ -18,5 +18,7 @@ module.exports.countTacosByUser = function(members, tacos) {
     }
   }
 
-  return _.sortBy(unsortedUsers, ['score']).reverse().slice(0, 150);
+  return _.sortBy(unsortedUsers, ['score'])
+    .reverse()
+    .slice(0, 150);
 };

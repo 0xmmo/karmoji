@@ -98,7 +98,7 @@ module.exports.response = {
     return image(channel, url);
   },
   dice: function(channel) {
-    const text = `:game_die: *${Math.ceil(Math.random()*6)}* :game_die:`;
+    const text = `:game_die: *${Math.ceil(Math.random() * 6)}* :game_die:`;
     return message(channel, text);
-  },
+  }
 };
