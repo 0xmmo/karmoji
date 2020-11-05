@@ -1,11 +1,11 @@
 module.exports = {
   env: {
     es6: true,
-    node: true
+    node: true,
   },
   extends: "eslint:recommended",
   parserOptions: {
-    ecmaVersion: 2015
+    ecmaVersion: 2015,
   },
   rules: {
     "accessor-pairs": "error",
@@ -19,8 +19,8 @@ module.exports = {
       "error",
       {
         after: true,
-        before: true
-      }
+        before: true,
+      },
     ],
     "block-scoped-var": "error",
     "block-spacing": "error",
@@ -41,8 +41,8 @@ module.exports = {
     "dot-notation": [
       "error",
       {
-        allowKeywords: true
-      }
+        allowKeywords: true,
+      },
     ],
     "eol-last": ["error", "always"],
     eqeqeq: "error",
@@ -161,8 +161,8 @@ module.exports = {
     "no-tabs": [
       "error",
       {
-        allowIndentationTabs: true
-      }
+        allowIndentationTabs: true,
+      },
     ],
     "no-template-curly-in-string": "error",
     "no-ternary": "off",
@@ -238,6 +238,6 @@ module.exports = {
     "wrap-iife": "error",
     "wrap-regex": "error",
     "yield-star-spacing": "error",
-    yoda: ["error", "never"]
-  }
+    yoda: ["error", "never"],
+  },
 };
