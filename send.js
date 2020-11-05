@@ -1,6 +1,6 @@
-const { WebClient } = require("@slack/client");
-const pad = require("pad");
-const _ = require("lodash");
+const { WebClient } = require('@slack/client');
+const pad = require('pad');
+const _ = require('lodash');
 
 const token = process.env.SLACK_BOT_TOKEN;
 const web = new WebClient(token);
@@ -20,7 +20,7 @@ const image = function(channel, url) {
       channel,
       attachments: [
         {
-          fallback: "",
+          fallback: '',
           image_url: url
         }
       ]
@@ -40,22 +40,22 @@ const reaction = function(channel, messageTimestamp, emoji) {
 
 module.exports.confirmation = {
   emojis: _.shuffle([
-    "ok_hand",
-    "fire",
-    "thumbsup",
-    "boom",
-    "tada",
-    "heart_eyes",
-    "star-struck",
-    "muscle",
-    "clap",
-    "raised_hands",
-    "rocket",
-    "dark_sunglasses",
-    "confetti_ball",
-    "gift",
-    "trophy",
-    "mega"
+    'ok_hand',
+    'fire',
+    'thumbsup',
+    'boom',
+    'tada',
+    'heart_eyes',
+    'star-struck',
+    'muscle',
+    'clap',
+    'raised_hands',
+    'rocket',
+    'dark_sunglasses',
+    'confetti_ball',
+    'gift',
+    'trophy',
+    'mega'
   ]),
   index: 0,
   reaction(channel, messageTimestamp) {
@@ -66,35 +66,35 @@ module.exports.confirmation = {
 };
 
 module.exports.leaderboard = function(channel, users, period) {
-  let leaderboard = `Here's the ${period || ""} :taco: leaderboard\n\`\`\``;
-  users.forEach(user => {
+  let leaderboard = `Here's the ${period || ''} :taco: leaderboard\n\`\`\``;
+  users.forEach((user) => {
     let name = user.name;
-    if (user.name === "taco") name = "tacorico";
+    if (user.name === 'taco') name = 'tacorico';
     leaderboard += `\n@${pad(name, 20)} ${user.score}`;
   });
-  leaderboard += "\n```";
+  leaderboard += '\n```';
   return message(channel, leaderboard);
 };
 
 module.exports.response = {
   rain: function(channel) {
-    const url = "https://media.giphy.com/media/pYCdxGyLFSwgw/giphy.gif";
+    const url = 'https://media.giphy.com/media/pYCdxGyLFSwgw/giphy.gif';
     return image(channel, url);
   },
   dance: function(channel) {
-    const url = "https://media.giphy.com/media/b5WqMx1eiFv6U/giphy.gif";
+    const url = 'https://media.giphy.com/media/b5WqMx1eiFv6U/giphy.gif';
     return image(channel, url);
   },
   yey: function(channel) {
-    const text = ":yey:";
+    const text = ':yey:';
     return message(channel, text);
   },
   sadpanda: function(channel) {
-    const text = ":sadpanda:";
+    const text = ':sadpanda:';
     return message(channel, text);
   },
   everyone: function(channel) {
-    const url = "https://i.imgur.com/4Ldx8uf.jpg";
+    const url = 'https://i.imgur.com/4Ldx8uf.jpg';
     return image(channel, url);
   },
   dice: function(channel) {

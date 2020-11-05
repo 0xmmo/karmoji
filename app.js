@@ -1,24 +1,24 @@
-const db = require("./database");
-const listen = require("./listen");
-const send = require("./send");
-const get = require("./get");
-const find = require("./find");
-const utils = require("./utils");
+const db = require('./database');
+const listen = require('./listen');
+const send = require('./send');
+const get = require('./get');
+const find = require('./find');
+const utils = require('./utils');
 
 // Get all workspace members on app start
 const members = [];
-get.members(1000).then(response => {
+get.members(1000).then((response) => {
   members.push(...response.members);
 });
 
-listen.message(event => {
+listen.message((event) => {
   const { text, channel, user: userFrom, ts } = event;
 
   const users = find.users(text);
   const tacos = find.tacos(text);
 
   tacos.forEach(() => {
-    users.forEach(userTo => {
+    users.forEach((userTo) => {
       if (userFrom === userTo) return;
 
       db.add.taco(channel, userFrom, userTo, () => {
@@ -36,34 +36,34 @@ listen.message(event => {
 });
 
 // eslint-disable-next-line max-statements
-listen.mention(event => {
+listen.mention((event) => {
   const { text, channel } = event;
 
-  let period = "";
-  const post = tacos => {
+  let period = '';
+  const post = (tacos) => {
     const users = utils.countTacosByUser(members, tacos);
     send.leaderboard(channel, users, period);
   };
 
   if (find.leaderboard(text)) {
     if (find.all(text)) {
-      period = "all time";
-      db.get("tacos")
+      period = 'all time';
+      db.get('tacos')
         .all()
         .do(post);
     } else if (find.year(text)) {
-      period = "last 365 day";
-      db.get("tacos")
+      period = 'last 365 day';
+      db.get('tacos')
         .days(365)
         .do(post);
     } else if (find.week(text)) {
-      period = "last 7 day";
-      db.get("tacos")
+      period = 'last 7 day';
+      db.get('tacos')
         .days(7)
         .do(post);
     } else {
-      period = "last 30 day";
-      db.get("tacos")
+      period = 'last 30 day';
+      db.get('tacos')
         .days(30)
         .do(post);
     }

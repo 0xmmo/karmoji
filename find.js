@@ -1,7 +1,7 @@
 module.exports.users = function(tExT) {
   const matches = tExT.match(/<@[A-Z0-9]{9,12}>/g);
   return matches
-    ? matches.map(wrapped => wrapped.replace("<@", "").replace(">", ""))
+    ? matches.map((wrapped) => wrapped.replace('<@', '').replace('>', ''))
     : [];
 };
 

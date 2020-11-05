@@ -1,6 +1,6 @@
 const dburl = process.env.MONGODB_URI;
 
-const mongo = require("mongoskin");
+const mongo = require('mongoskin');
 const db = mongo.db(dburl, { native_parser: true });
 
 const base = {
@@ -33,7 +33,7 @@ const base = {
 module.exports.add = {
   taco: function(channel, userFrom, userTo, callback) {
     base.addEntryToCollection(
-      "tacos",
+      'tacos',
       {
         userFrom,
         userTo,
@@ -45,13 +45,13 @@ module.exports.add = {
   }
 };
 
-module.exports.get = collection => ({
+module.exports.get = (collection) => ({
   all: () => ({
     do: function(callback) {
       base.getAllFromCollection(collection, callback);
     }
   }),
-  days: days => ({
+  days: (days) => ({
     do: function(callback) {
       const start = new Date(new Date() - days * 60 * 60 * 24 * 1000);
       base.getPeriodFromCollection(collection, start, callback);
