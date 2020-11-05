@@ -12,7 +12,7 @@ get.members(1000).then((response) => {
 });
 
 listen.message((event) => {
-  const {text, channel, user: userFrom, ts} = event;
+  const { text, channel, user: userFrom, ts } = event;
 
   const users = find.users(text);
   const tacos = find.tacos(text);
@@ -35,8 +35,9 @@ listen.message((event) => {
   return listen.answer;
 });
 
+// eslint-disable-next-line max-statements
 listen.mention((event) => {
-  const {text, channel} = event;
+  const { text, channel } = event;
 
   let period = '';
   const post = (tacos) => {

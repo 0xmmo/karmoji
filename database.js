@@ -1,7 +1,7 @@
 const dburl = process.env.MONGODB_URI;
 
 const mongo = require('mongoskin');
-const db = mongo.db(dburl, {native_parser: true});
+const db = mongo.db(dburl, { native_parser: true });
 
 const base = {
   addEntryToCollection: function(collection, entry, callback) {
@@ -21,7 +21,7 @@ const base = {
   getPeriodFromCollection: function(collection, start, callback) {
     db.collection(collection)
       .find({
-        time: {$gte: start}
+        time: { $gte: start }
       })
       .toArray((err, result) => {
         if (err) throw err;

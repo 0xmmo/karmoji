@@ -10,7 +10,7 @@ module.exports.countTacosByUser = function(members, tacos) {
   const unsortedUsers = [];
   for (const userId in scores) {
     if (scores.hasOwnProperty(userId)) {
-      const user = _.find(members, {id: userId});
+      const user = _.find(members, { id: userId });
       if (user) {
         user.score = scores[userId];
         unsortedUsers.push(user);
@@ -18,5 +18,7 @@ module.exports.countTacosByUser = function(members, tacos) {
     }
   }
 
-  return _.sortBy(unsortedUsers, ['score']).reverse().slice(0, 150);
+  return _.sortBy(unsortedUsers, ['score'])
+    .reverse()
+    .slice(0, 150);
 };

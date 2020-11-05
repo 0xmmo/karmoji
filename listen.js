@@ -1,4 +1,4 @@
-const {createEventAdapter} = require('@slack/events-api');
+const { createEventAdapter } = require('@slack/events-api');
 
 const port = process.env.PORT || 3000;
 const secret = process.env.SLACK_SIGNING_SECRET;
@@ -20,7 +20,9 @@ module.exports.message = function(handler) {
       event.subtype === 'bot_message' ||
       event.subtype === 'message_changed' ||
       answered.filter((ts) => ts === event.ts).length
-    ) return;
+    ) {
+      return;
+    }
 
     if (handler(event) === answer) answered.push(event.ts);
   });
@@ -36,7 +38,9 @@ module.exports.mention = function(handler) {
       event.subtype === 'bot_message' ||
       event.subtype === 'message_changed' ||
       answered.filter((ts) => ts === event.ts).length
-    ) return;
+    ) {
+      return;
+    }
 
     if (handler(event) === answer) answered.push(event.ts);
   });
