@@ -11,9 +11,9 @@ get.members(1000).then((response) => {
   members.push(...response.members);
 });
 
-function uniqueUsers(users) {
-  return [...Set(users)];
-}
+const uniqueUsers = (users) => {
+  return Array.from(new Set(users));
+};
 
 listen.message((event) => {
   const { text, channel, user: userFrom, ts } = event;
