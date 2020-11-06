@@ -11,6 +11,8 @@ get.members(1000).then((response) => {
   members.push(...response.members);
 });
 
+const uniqueUsers = (users) => Array.from(new Set(users));
+
 listen.message((event) => {
   const { text, channel, user: userFrom, ts } = event;
 
@@ -20,7 +22,7 @@ listen.message((event) => {
 
   if (users.length) {
     if (tacos.length) {
-      users.forEach((userTo) => {
+      uniqueUsers(users).forEach((userTo) => {
         if (userFrom === userTo) return;
 
         db.add.taco(channel, userFrom, userTo, () => {
