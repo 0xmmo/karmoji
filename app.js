@@ -22,7 +22,8 @@ listen.message((event) => {
 
   if (users.length) {
     if (tacos.length) {
-      uniqueUsers(users).forEach((userTo) => {
+      const uniques = uniqueUsers(users);
+      uniques.forEach((userTo) => {
         if (userFrom === userTo) return;
 
         db.add.taco(channel, userFrom, userTo, () => {
@@ -30,7 +31,7 @@ listen.message((event) => {
         });
       });
 
-      if (users.length >= 3) send.response.everyone(channel);
+      if (uniques.length >= 3) send.response.everyone(channel);
     }
 
     if (negatacos.length) {
