@@ -1,9 +1,7 @@
-const db = require('./database');
 const listen = require('./listen');
 const send = require('./send');
 const get = require('./get');
 const find = require('./find');
-const utils = require('./utils');
 
 // Get all workspace members on app start
 const members = [];
@@ -26,9 +24,7 @@ listen.message((event) => {
       uniques.forEach((userTo) => {
         if (userFrom === userTo) return;
 
-        db.add.taco(channel, userFrom, userTo, () => {
-          send.confirmation.reaction(channel, ts);
-        });
+        send.confirmation.reaction(channel, ts);
       });
 
       if (uniques.length >= 3) send.response.everyone(channel);
@@ -48,34 +44,8 @@ listen.message((event) => {
 listen.mention((event) => {
   const { text, channel } = event;
 
-  let period = '';
-  const post = (tacos) => {
-    const users = utils.countTacosByUser(members, tacos);
-    send.leaderboard(channel, users, period);
-  };
-
   if (find.leaderboard(text)) {
-    if (find.all(text)) {
-      period = 'all time';
-      db.get('tacos')
-        .all()
-        .do(post);
-    } else if (find.year(text)) {
-      period = 'last 365 day';
-      db.get('tacos')
-        .days(365)
-        .do(post);
-    } else if (find.week(text)) {
-      period = 'last 7 day';
-      db.get('tacos')
-        .days(7)
-        .do(post);
-    } else {
-      period = 'last 30 day';
-      db.get('tacos')
-        .days(30)
-        .do(post);
-    }
+    send.leaderboardOffline(channel);
   }
 
   if (find.rain(text)) send.response.rain(channel);
