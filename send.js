@@ -85,6 +85,13 @@ module.exports.leaderboard = function(channel, users, period) {
   return message(channel, leaderboard);
 };
 
+module.exports.leaderboardOffline = function(channel) {
+  return message(
+    channel,
+    'Apologies, but the leaderboard is currently disabled!'
+  );
+};
+
 module.exports.response = {
   rain: function(channel) {
     const url = 'https://media.giphy.com/media/pYCdxGyLFSwgw/giphy.gif';
