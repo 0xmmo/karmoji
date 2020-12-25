@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 module.exports.countTacosByUser = function(members, tacos) {
   const scores = {};
   tacos.forEach((taco) => {
@@ -10,7 +8,7 @@ module.exports.countTacosByUser = function(members, tacos) {
   const unsortedUsers = [];
   for (const userId in scores) {
     if (scores.hasOwnProperty(userId)) {
-      const user = _.find(members, { id: userId });
+      const user = members.find((member) => member.id === userId);
       if (user) {
         user.score = scores[userId];
         unsortedUsers.push(user);
@@ -18,7 +16,22 @@ module.exports.countTacosByUser = function(members, tacos) {
     }
   }
 
-  return _.sortBy(unsortedUsers, ['score'])
-    .reverse()
+  return unsortedUsers
+    .sort((a, b) => {
+      return b.score - a.score;
+    })
     .slice(0, 150);
+};
+
+module.exports.shuffle = function shuffle(items) {
+  let m = items.length,
+    t,
+    i;
+  while (m > 0) {
+    i = Math.floor(Math.random() * m--);
+    t = items[m];
+    items[m] = items[i];
+    items[i] = t;
+  }
+  return items;
 };
