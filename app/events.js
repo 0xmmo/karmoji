@@ -26,8 +26,8 @@ function ignorableEvent(event) {
     event.edited ||
     event.subtype === 'bot_message' ||
     event.subtype === 'message_changed' ||
-    event.channel_type === 'im'
-    // respondedTo.has(hashEvent(event))
+    event.channel_type === 'im' ||
+    respondedTo.has(hashEvent(event))
   );
 }
 
