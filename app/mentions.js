@@ -1,6 +1,6 @@
 const { textIncludes } = require('./find');
 const { sendMessage, sendImage } = require('./send');
-const { allTacos } = require('./database');
+const { allTacos, lastMonthsTacos } = require('./database');
 const { getMembers } = require('./get');
 const { countTacosByUser } = require('./utils');
 
@@ -29,16 +29,21 @@ module.exports.mentions = [
   (text, channel) => {
     if (textIncludes(text, [/leaderboard/g])) {
       if (textIncludes(text, [/all/g, /all time/g])) {
-        return Promise.all([allTacos(), getMembers()]).then(
+        Promise.all([allTacos(), getMembers()]).then(([tacos, members]) => {
+          const users = countTacosByUser(members, tacos);
+          const msg = leaderboardText(users, 'all time');
+          sendMessage(channel, msg);
+        });
+      } else if (textIncludes(text, [/last month/g])) {
+        Promise.all([lastMonthsTacos(), getMembers()]).then(
           ([tacos, members]) => {
             const users = countTacosByUser(members, tacos);
-            const msg = leaderboardText(users, 'all time');
+            const msg = leaderboardText(users, "previous month's");
             sendMessage(channel, msg);
           }
         );
       }
     }
-    return Promise.resolve();
   },
   (text, channel) => {
     if (textIncludes(text, [/make it rain/g])) {

@@ -55,6 +55,39 @@ module.exports.allTacos = function allTacos() {
   return Taco.find().exec();
 };
 
+function firstOfMonth(month, year) {
+  const date = new Date();
+  date.setFullYear(year);
+  date.setDate(1);
+  date.setMonth(month);
+  date.setFullYear(year);
+  return date;
+}
+
+function startAndEndDates() {
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+  const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+  const previousYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+  const start = firstOfMonth(previousMonth, previousYear);
+  const end = firstOfMonth(currentMonth, currentYear);
+  return {
+    start,
+    end
+  };
+}
+
+module.exports.lastMonthsTacos = function lastMonthsTacos() {
+  const { start, end } = startAndEndDates();
+  return Taco.find({
+    time: {
+      $gte: start,
+      $lt: end
+    }
+  }).exec();
+};
+
 // module.exports.get = (collection) => ({
 //   days: (days) => ({
 //     do: function(callback) {
