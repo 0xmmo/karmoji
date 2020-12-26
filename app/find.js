@@ -8,7 +8,7 @@ module.exports.textIncludes = function textIncludes(text, regexes) {
   return false;
 };
 
-module.exports.module.exports.mentionedUsers = function(text) {
+module.exports.mentionedUsers = function(text) {
   const matches = text.match(/<@[A-Z0-9]{9,12}>/g);
   return matches
     ? matches.map((wrapped) => wrapped.replace('<@', '').replace('>', ''))
