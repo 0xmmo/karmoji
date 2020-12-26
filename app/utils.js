@@ -16,11 +16,7 @@ module.exports.countTacosByUser = function(members, tacos) {
     }
   }
 
-  return unsortedUsers
-    .sort((a, b) => {
-      return b.score - a.score;
-    })
-    .slice(0, 150);
+  return unsortedUsers.sort((a, b) => b.score - a.score).slice(0, 150);
 };
 
 module.exports.shuffle = function shuffle(items) {

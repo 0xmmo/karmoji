@@ -26,8 +26,8 @@ function ignorableEvent(event) {
     event.edited ||
     event.subtype === 'bot_message' ||
     event.subtype === 'message_changed' ||
-    event.channel_type === 'im' ||
-    respondedTo.has(hashEvent(event))
+    event.channel_type === 'im'
+    // respondedTo.has(hashEvent(event))
   );
 }
 
@@ -35,12 +35,17 @@ module.exports.markResponded = function markResponded(event) {
   respondedTo.add(hashEvent(event));
 };
 
-module.exports.createListener = function createListener(events, type, handler) {
+module.exports.createListener = function createListener(
+  events,
+  type,
+  handler,
+  botId
+) {
   events.on(type, (event) => {
     if (ignorableEvent(event)) {
       return;
     }
 
-    handler(event);
+    handler(event, botId);
   });
 };

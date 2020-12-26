@@ -1,6 +1,7 @@
 const { sendReaction, sendImage } = require('./send');
 const { textIncludes } = require('./find');
 const { shuffle } = require('./utils');
+const { giveTaco } = require('./database');
 
 function uniqueMentions(users, sender) {
   const mentionedUsers = new Set(users);
@@ -16,7 +17,12 @@ module.exports.messages = [
     if (!textIncludes(text, [/:taco:/g])) {
       return;
     }
+
     const mentions = uniqueMentions(users, userFrom);
+    for (const user of mentions) {
+      giveTaco(channel, userFrom, user);
+    }
+
     const emojis = shuffle([
       'ok_hand',
       'fire',
