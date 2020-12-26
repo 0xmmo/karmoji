@@ -4,14 +4,6 @@ const { allTacos, lastMonthsTacos } = require('./database');
 const { getMembers } = require('./get');
 const { countTacosByUser } = require('./utils');
 
-// commented out until database exists again
-// module.exports.year = function(text) {
-//   return textIncludes(text, [/year/g]);
-// };
-// module.exports.week = function(text) {
-//   return textIncludes(text, [/week/g]);
-// };
-
 function leaderboardText(users, period) {
   let leaderboard = `Here's the ${period || ''} :taco: leaderboard\n\`\`\``;
   users.forEach((user) => {

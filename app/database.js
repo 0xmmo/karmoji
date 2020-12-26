@@ -20,27 +20,6 @@ module.exports.connectDatabase = function connectDatabase() {
   );
 };
 
-// const base = {
-//   getAllFromCollection: function(collection, callback) {
-//     db.collection(collection)
-//       .find()
-//       .toArray((err, result) => {
-//         if (err) throw err;
-//         callback(result);
-//       });
-//   },
-//   getPeriodFromCollection: function(collection, start, callback) {
-//     db.collection(collection)
-//       .find({
-//         time: { $gte: start }
-//       })
-//       .toArray((err, result) => {
-//         if (err) throw err;
-//         callback(result);
-//       });
-//   }
-// };
-
 module.exports.giveTaco = function giveTaco(channel, userFrom, userTo) {
   const taco = new Taco({
     userFrom,
@@ -87,12 +66,3 @@ module.exports.lastMonthsTacos = function lastMonthsTacos() {
     }
   }).exec();
 };
-
-// module.exports.get = (collection) => ({
-//   days: (days) => ({
-//     do: function(callback) {
-//       const start = new Date(new Date() - days * 60 * 60 * 24 * 1000);
-//       base.getPeriodFromCollection(collection, start, callback);
-//     }
-//   })
-// });
