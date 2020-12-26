@@ -1,0 +1,66 @@
+const { sendReaction, sendImage } = require('./send');
+const { textIncludes } = require('./find');
+const { shuffle } = require('./utils');
+
+function uniqueMentions(users, sender) {
+  const mentionedUsers = new Set(users);
+  if (mentionedUsers.has(sender)) {
+    mentionedUsers.delete(sender);
+  }
+  return Array.from(mentionedUsers);
+}
+
+module.exports.tacoMessage = function tacoMessage(
+  text,
+  channel,
+  messageTimestamp,
+  users,
+  userFrom
+) {
+  if (!textIncludes(text, [/:taco:/g])) {
+    return;
+  }
+  const mentions = uniqueMentions(users, userFrom);
+  const emojis = shuffle([
+    'ok_hand',
+    'fire',
+    'thumbsup',
+    'boom',
+    'tada',
+    'heart_eyes',
+    'star-struck',
+    'muscle',
+    'clap',
+    'raised_hands',
+    'rocket',
+    'dark_sunglasses',
+    'confetti_ball',
+    'gift',
+    'trophy',
+    'mega'
+  ]);
+  const count = mentions.length;
+
+  for (let i = 0; i < count; i++) {
+    const emoji = emojis[i % emojis.length];
+    sendReaction(channel, messageTimestamp, emoji);
+  }
+
+  if (count > 3) {
+    sendImage(channel, 'https://i.imgur.com/4Ldx8uf.jpg');
+  }
+};
+
+module.exports.negatacoMessage = function negatacoMessage(
+  text,
+  channel,
+  messageTimestamp
+) {
+  if (!textIncludes(text, [/:negataco:/g])) {
+    return;
+  }
+
+  const emojis = ['notsureif', 'coneofshame', 'wat', 'wutlol'];
+  const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+  sendReaction(channel, messageTimestamp, emoji);
+};
