@@ -11,9 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@slack/client": "^4.8.0",
-    "@slack/events-api": "^2.1.1",
-    "lodash": "^4.17.13",
+    "@slack/events-api": "^2.3.4",
+    "@slack/web-api": "^5.14.0",
     "mongodb": "^2.2.10",
     "mongoskin": "^2.1.0",
     "pad": "^2.2.1"
