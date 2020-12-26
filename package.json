@@ -13,8 +13,7 @@
   "dependencies": {
     "@slack/events-api": "^2.3.4",
     "@slack/web-api": "^5.14.0",
-    "mongodb": "^2.2.10",
-    "mongoskin": "^2.1.0",
+    "mongoose": "~5.11.8",
     "pad": "^2.2.1"
   },
   "devDependencies": {
