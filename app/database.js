@@ -21,12 +21,6 @@ module.exports.connectDatabase = function connectDatabase() {
 };
 
 // const base = {
-//   addEntryToCollection: function(collection, entry, callback) {
-//     db.collection(collection).insert(entry, (err, result) => {
-//       if (err) throw err;
-//       callback(result);
-//     });
-//   },
 //   getAllFromCollection: function(collection, callback) {
 //     db.collection(collection)
 //       .find()
@@ -58,17 +52,10 @@ module.exports.giveTaco = function giveTaco(channel, userFrom, userTo) {
 };
 
 module.exports.allTacos = function allTacos() {
-  Taco.find().then((docs) => {
-    console.log({ docs });
-  });
+  return Taco.find().exec();
 };
 
 // module.exports.get = (collection) => ({
-//   all: () => ({
-//     do: function(callback) {
-//       base.getAllFromCollection(collection, callback);
-//     }
-//   }),
 //   days: (days) => ({
 //     do: function(callback) {
 //       const start = new Date(new Date() - days * 60 * 60 * 24 * 1000);

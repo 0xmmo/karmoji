@@ -1,27 +1,44 @@
 const { textIncludes } = require('./find');
 const { sendMessage, sendImage } = require('./send');
+const { allTacos } = require('./database');
+const { getMembers } = require('./get');
+const { countTacosByUser } = require('./utils');
 
 // commented out until database exists again
-// module.exports.all = function(text) {
-//   return textIncludes(text, [/all/g, /all time/g]);
-// };
-
 // module.exports.year = function(text) {
 //   return textIncludes(text, [/year/g]);
 // };
-
 // module.exports.week = function(text) {
 //   return textIncludes(text, [/week/g]);
 // };
 
+function leaderboardText(users, period) {
+  let leaderboard = `Here's the ${period || ''} :taco: leaderboard\n\`\`\``;
+  users.forEach((user) => {
+    let name = user.name;
+    if (user.name === 'taco') {
+      name = 'tacobot';
+    }
+    leaderboard += `\n@${name.padEnd(20)} ${user.score}`;
+  });
+  leaderboard += '\n```';
+  return leaderboard;
+}
+
 module.exports.mentions = [
   (text, channel) => {
     if (textIncludes(text, [/leaderboard/g])) {
-      sendMessage(
-        channel,
-        'Apologies, but the leaderboard is currently disabled!'
-      );
+      if (textIncludes(text, [/all/g, /all time/g])) {
+        return Promise.all([allTacos(), getMembers()]).then(
+          ([tacos, members]) => {
+            const users = countTacosByUser(members, tacos);
+            const msg = leaderboardText(users, 'all time');
+            sendMessage(channel, msg);
+          }
+        );
+      }
     }
+    return Promise.resolve();
   },
   (text, channel) => {
     if (textIncludes(text, [/make it rain/g])) {
@@ -31,7 +48,6 @@ module.exports.mentions = [
       );
     }
   },
-
   (text, channel) => {
     if (textIncludes(text, [/dance/g])) {
       sendImage(
@@ -56,8 +72,10 @@ module.exports.mentions = [
     if (
       textIncludes(text, [/roll die/g, /roll a die/g, /dice/g, /:game_die:/g])
     ) {
-      const text = `:game_die: *${Math.ceil(Math.random() * 6)}* :game_die:`;
-      sendMessage(channel, text);
+      sendMessage(
+        channel,
+        `:game_die: *${Math.ceil(Math.random() * 6)}* :game_die:`
+      );
     }
   }
 ];

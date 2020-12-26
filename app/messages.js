@@ -17,6 +17,7 @@ module.exports.messages = [
     if (!textIncludes(text, [/:taco:/g])) {
       return;
     }
+
     const mentions = uniqueMentions(users, userFrom);
     for (const user of mentions) {
       giveTaco(channel, userFrom, user);
