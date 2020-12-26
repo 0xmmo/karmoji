@@ -1,15 +1,13 @@
 const { createEventAdapter } = require('@slack/events-api');
 
 const secret = process.env.SLACK_SIGNING_SECRET;
+const PORT = process.env.PORT || 3000;
 
-module.exports.startEventListener = function startEventListener(
-  port,
-  callback
-) {
+module.exports.startEventListener = function startEventListener(callback) {
   const events = createEventAdapter(secret);
   events.on('error', console.error);
-  events.start(port).then(() => {
-    console.log(`server listening on port ${port}`);
+  events.start(PORT).then(() => {
+    console.log(`server listening on port ${PORT}`);
   });
   callback(events);
 };

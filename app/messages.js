@@ -10,57 +10,48 @@ function uniqueMentions(users, sender) {
   return Array.from(mentionedUsers);
 }
 
-module.exports.tacoMessage = function tacoMessage(
-  text,
-  channel,
-  messageTimestamp,
-  users,
-  userFrom
-) {
-  if (!textIncludes(text, [/:taco:/g])) {
-    return;
-  }
-  const mentions = uniqueMentions(users, userFrom);
-  const emojis = shuffle([
-    'ok_hand',
-    'fire',
-    'thumbsup',
-    'boom',
-    'tada',
-    'heart_eyes',
-    'star-struck',
-    'muscle',
-    'clap',
-    'raised_hands',
-    'rocket',
-    'dark_sunglasses',
-    'confetti_ball',
-    'gift',
-    'trophy',
-    'mega'
-  ]);
-  const count = mentions.length;
+module.exports.messages = [
+  // tacos
+  (text, channel, messageTimestamp, users, userFrom) => {
+    if (!textIncludes(text, [/:taco:/g])) {
+      return;
+    }
+    const mentions = uniqueMentions(users, userFrom);
+    const emojis = shuffle([
+      'ok_hand',
+      'fire',
+      'thumbsup',
+      'boom',
+      'tada',
+      'heart_eyes',
+      'star-struck',
+      'muscle',
+      'clap',
+      'raised_hands',
+      'rocket',
+      'dark_sunglasses',
+      'confetti_ball',
+      'gift',
+      'trophy',
+      'mega'
+    ]);
+    const count = mentions.length;
 
-  for (let i = 0; i < count; i++) {
-    const emoji = emojis[i % emojis.length];
-    sendReaction(channel, messageTimestamp, emoji);
-  }
+    for (let i = 0; i < count; i++) {
+      const emoji = emojis[i % emojis.length];
+      sendReaction(channel, messageTimestamp, emoji);
+    }
 
-  if (count > 3) {
-    sendImage(channel, 'https://i.imgur.com/4Ldx8uf.jpg');
+    if (count > 3) {
+      sendImage(channel, 'https://i.imgur.com/4Ldx8uf.jpg');
+    }
+  },
+  // negatacos
+  (text, channel, messageTimestamp) => {
+    if (textIncludes(text, [/:negataco:/g])) {
+      const emojis = ['notsureif', 'coneofshame', 'wat', 'wutlol'];
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+      sendReaction(channel, messageTimestamp, emoji);
+    }
   }
-};
-
-module.exports.negatacoMessage = function negatacoMessage(
-  text,
-  channel,
-  messageTimestamp
-) {
-  if (!textIncludes(text, [/:negataco:/g])) {
-    return;
-  }
-
-  const emojis = ['notsureif', 'coneofshame', 'wat', 'wutlol'];
-  const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-  sendReaction(channel, messageTimestamp, emoji);
-};
+];

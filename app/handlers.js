@@ -16,9 +16,7 @@ module.exports.handleMessage = function handleMessage(event) {
 module.exports.handleMention = function handleMention(event) {
   const { text, channel } = event;
   for (const mention of mentions) {
-    if (mention.existsIn(text)) {
-      mention.respond(channel);
-    }
+    mention(text, channel);
   }
   markResponded(event);
 };
