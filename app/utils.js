@@ -34,3 +34,11 @@ module.exports.shuffle = function shuffle(items) {
   }
   return items;
 };
+
+module.exports.codeBlock = function codeBlock(lines) {
+  return ['```', ...lines, '```'].join('\n');
+};
+
+module.exports.padded = function padded(text) {
+  return text.padEnd(20);
+};

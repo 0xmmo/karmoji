@@ -2,37 +2,35 @@ const { textIncludes } = require('./find');
 const { sendMessage, sendImage } = require('./send');
 const { allTacos, lastMonthsTacos } = require('./database');
 const { getMembers, getChannels } = require('./get');
-const { countTacosByUser } = require('./utils');
+const { countTacosByUser, codeBlock, padded } = require('./utils');
 
 function leaderboardText(users, period) {
-  const lines = [`Here's the ${period || ''} :taco: leaderboard`, '```'];
+  const userLines = [];
   for (const user of users) {
     let name = user.name;
     if (user.name === 'taco') {
       name = 'tacobot';
     }
-    lines.push(`@${name.padEnd(20)} ${user.score}`);
+    userLines.push(`@${padded(name)} ${user.score}`);
   }
-  lines.push('```');
-  return lines.join('\n');
+  return `Here's the ${period || ''} :taco: leaderboard\n${codeBlock(
+    userLines
+  )}`;
 }
 
 function tacoGiverText(members, channels, tacos) {
-  const lines = [
-    '```',
-    `${'From'.padEnd(20)} ${'To'.padEnd(20)} ${'Channel'.padEnd(20)}`
+  const tacoLines = [
+    `${padded('From')} ${padded('To')} Channel`,
+    ''.padEnd(47, '-')
   ];
   for (const taco of tacos) {
     const to = members[taco.userTo].name;
     const from = members[taco.userFrom].name;
     const channel =
-      taco.channel in channels
-        ? channels[taco.channel].name
-        : 'Unknown Channel';
-    lines.push(`${from.padEnd(20)} ${to.padEnd(20)} ${channel.padEnd(20)}`);
+      taco.channel in channels ? channels[taco.channel].name : '<unknown>';
+    tacoLines.push(`${padded(from)} ${padded(to)} ${channel}`);
   }
-  lines.push('```');
-  return lines.join('\n');
+  return codeBlock(tacoLines);
 }
 
 module.exports.mentions = [
