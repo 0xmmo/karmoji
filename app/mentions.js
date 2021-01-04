@@ -26,7 +26,7 @@ function tacoGiverText(members, channels, tacos) {
       taco.channel in channels
         ? channels[taco.channel].name
         : 'Unknown Channel';
-    lines.push(`${from} gave ${to} a taco in ${channel}`);
+    lines.push(`${from.padEnd(20)} ${to.padEnd(20)} ${channel.padEnd(20)}`);
   }
   lines.push('```');
   return lines.join('\n');
