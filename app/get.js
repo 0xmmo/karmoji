@@ -11,7 +11,7 @@ module.exports.getMembers = function(limit = 1000) {
 };
 
 module.exports.getChannels = function(limit = 1000) {
-  return web.conversations.list({ limit }).then((response) => {
+  return web.users.conversations({ limit }).then((response) => {
     const channels = {};
     for (const channel of response.channels) {
       channels[channel.id] = channel;
