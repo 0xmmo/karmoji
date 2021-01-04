@@ -16,7 +16,7 @@
     "mongoose": "~5.11.8"
   },
   "devDependencies": {
-    "eslint": "^5.9.0",
+    "eslint": "~7.17.0",
     "prettier": "1.15.1"
   }
 }
