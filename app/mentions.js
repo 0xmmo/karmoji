@@ -1,20 +1,35 @@
 const { textIncludes } = require('./find');
 const { sendMessage, sendImage } = require('./send');
 const { allTacos, lastMonthsTacos } = require('./database');
-const { getMembers } = require('./get');
+const { getMembers, getChannels } = require('./get');
 const { countTacosByUser } = require('./utils');
 
 function leaderboardText(users, period) {
-  let leaderboard = `Here's the ${period || ''} :taco: leaderboard\n\`\`\``;
-  users.forEach((user) => {
+  const lines = [`Here's the ${period || ''} :taco: leaderboard`, '```'];
+  for (const user of users) {
     let name = user.name;
     if (user.name === 'taco') {
       name = 'tacobot';
     }
-    leaderboard += `\n@${name.padEnd(20)} ${user.score}`;
-  });
-  leaderboard += '\n```';
-  return leaderboard;
+    lines.push(`@${name.padEnd(20)} ${user.score}`);
+  }
+  lines.push('```');
+  return lines.join('\n');
+}
+
+function tacoGiverText(members, channels, tacos) {
+  const lines = ['```'];
+  for (const taco of tacos) {
+    const to = members[taco.userTo].name;
+    const from = members[taco.userFrom].name;
+    const channel =
+      taco.channel in channels
+        ? channels[taco.channel].name
+        : 'Unknown Channel';
+    lines.push(`${from} gave ${to} a taco in ${channel}`);
+  }
+  lines.push('```');
+  return lines.join('\n');
 }
 
 module.exports.mentions = [
@@ -35,6 +50,16 @@ module.exports.mentions = [
           }
         );
       }
+    }
+  },
+  (text, channel) => {
+    if (textIncludes(text, [/taco givers/g])) {
+      Promise.all([allTacos(), getMembers(), getChannels()]).then(
+        ([tacos, members, channels]) => {
+          const msg = tacoGiverText(members, channels, tacos);
+          sendMessage(channel, msg);
+        }
+      );
     }
   },
   (text, channel) => {

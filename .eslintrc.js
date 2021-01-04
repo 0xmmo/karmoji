@@ -5,7 +5,7 @@ module.exports = {
   },
   extends: 'eslint:recommended',
   parserOptions: {
-    ecmaVersion: 2015
+    ecmaVersion: 2018
   },
   rules: {
     'accessor-pairs': 'error',
@@ -98,6 +98,7 @@ module.exports = {
     'no-continue': 'error',
     'no-console': 'off',
     'no-div-regex': 'error',
+    'no-dupe-else-if': 'error',
     'no-duplicate-imports': 'error',
     'no-else-return': 'error',
     'no-empty-function': 'error',
@@ -111,6 +112,7 @@ module.exports = {
     'no-implicit-coercion': 'error',
     'no-implicit-globals': 'error',
     'no-implied-eval': 'error',
+    'no-import-assign': 'error',
     'no-inline-comments': 'error',
     'no-invalid-this': 'error',
     'no-iterator': 'error',
@@ -154,6 +156,7 @@ module.exports = {
     'no-script-url': 'error',
     'no-self-compare': 'error',
     'no-sequences': 'error',
+    'no-setter-return': 'error',
     'no-shadow': 'error',
     'no-shadow-restricted-names': 'error',
     'no-spaced-func': 'error',
@@ -176,6 +179,7 @@ module.exports = {
     'no-unused-expressions': 'error',
     'no-use-before-define': 'error',
     'no-useless-call': 'error',
+    'no-useless-catch': 'error',
     'no-useless-computed-key': 'error',
     'no-useless-concat': 'error',
     'no-useless-constructor': 'error',
