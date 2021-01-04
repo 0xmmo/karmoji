@@ -18,7 +18,10 @@ function leaderboardText(users, period) {
 }
 
 function tacoGiverText(members, channels, tacos) {
-  const lines = ['```'];
+  const lines = [
+    '```',
+    `${'From'.padEnd(20)} ${'To'.padEnd(20)} ${'Channel'.padEnd(20)}`
+  ];
   for (const taco of tacos) {
     const to = members[taco.userTo].name;
     const from = members[taco.userFrom].name;
