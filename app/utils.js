@@ -42,3 +42,18 @@ module.exports.codeBlock = function codeBlock(lines) {
 module.exports.padded = function padded(text) {
   return text.padEnd(20);
 };
+
+function charAsEmoji(char, color) {
+  return `alphabet-${color}-${char}`;
+}
+
+// this only works for A-Z, !, ?, and #
+// and won't be displayed correct if a character is used > 2 times
+module.exports.emojify = function emojify(phrase) {
+  const seenChars = new Set();
+  return phrase.split('').map((char) => {
+    const color = seenChars.has(char) ? 'yellow' : 'white';
+    seenChars.add(char);
+    return charAsEmoji(char, color);
+  });
+};

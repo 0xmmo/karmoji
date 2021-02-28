@@ -36,3 +36,13 @@ module.exports.sendReaction = function sendReaction(
     })
     .catch(console.error);
 };
+
+module.exports.sendEphemeral = function sendEphemeral(channel, user, text) {
+  return web.chat
+    .postEphemeral({
+      channel,
+      user,
+      text
+    })
+    .catch(console.error);
+};
