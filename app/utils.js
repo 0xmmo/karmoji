@@ -44,7 +44,15 @@ module.exports.padded = function padded(text) {
 };
 
 function charAsEmoji(char, color) {
-  return `alphabet-${color}-${char}`;
+  let mappedChar = char;
+  if (char === '?') {
+    mappedChar = 'question';
+  } else if (char === '!') {
+    mappedChar = 'exclamation';
+  } else if (char === '#') {
+    mappedChar = 'hash';
+  }
+  return `alphabet-${color}-${mappedChar}`;
 }
 
 // this only works for A-Z, !, ?, and #
