@@ -43,7 +43,7 @@ module.exports.sendReactions = function sendReactions(
   for (let i = 0; i < emojis.length; i++) {
     setTimeout(() => {
       sendReaction(channel, messageTimestamp, emojis[i]);
-    }, i * 10);
+    }, i * 100);
   }
 };
 
