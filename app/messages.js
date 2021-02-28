@@ -82,19 +82,19 @@ function selectTacoEmojis(count) {
 function spamReaction(channel, user, messageTimestamp, spams) {
   switch (spams) {
     case 1:
-      sendReaction(channel, messageTimestamp, emojify('hand'));
+      sendReaction(channel, messageTimestamp, 'hand');
       break;
     case 2:
-      sendReaction(channel, messageTimestamp, emojify('?'));
+      sendReactions(channel, messageTimestamp, emojify('?'));
       break;
     case 3:
-      sendReaction(channel, messageTimestamp, emojify('thinking_face'));
+      sendReaction(channel, messageTimestamp, 'thinking_face');
       break;
     case 4:
-      sendReaction(channel, messageTimestamp, emojify('??'));
+      sendReactions(channel, messageTimestamp, emojify('??'));
       break;
     case 5:
-      sendReaction(channel, messageTimestamp, emojify('um'));
+      sendReactions(channel, messageTimestamp, emojify('um'));
       break;
     case 6:
       sendMessage(channel, 'BTW, I stop counting at 5 tacos a day per person');
