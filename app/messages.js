@@ -1,5 +1,6 @@
 const {
   sendReaction,
+  sendReactions,
   sendImage,
   sendMessage,
   sendEphemeral
@@ -143,9 +144,7 @@ module.exports.messages = [
 
     const count = mentions.length;
     const emojis = selectTacoEmojis(count);
-    for (const emoji of emojis) {
-      sendReaction(channel, messageTimestamp, emoji);
-    }
+    sendReactions(channel, messageTimestamp, emojis);
 
     if (count > 3) {
       sendImage(channel, 'https://i.imgur.com/4Ldx8uf.jpg');
@@ -156,9 +155,7 @@ module.exports.messages = [
     if (textIncludes(text, [/:negataco:/g])) {
       const emojis = NEGATACO_PHRASES;
       const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-      for (const char of emoji) {
-        sendReaction(channel, messageTimestamp, char);
-      }
+      sendReactions(channel, messageTimestamp, emoji);
     }
   }
 ];

@@ -23,11 +23,7 @@ module.exports.sendImage = function sendImage(channel, url) {
     .catch(console.error);
 };
 
-module.exports.sendReaction = function sendReaction(
-  channel,
-  messageTimestamp,
-  emoji
-) {
+function sendReaction(channel, messageTimestamp, emoji) {
   return web.reactions
     .add({
       channel,
@@ -35,6 +31,20 @@ module.exports.sendReaction = function sendReaction(
       name: emoji
     })
     .catch(console.error);
+}
+
+module.exports.sendReaction = sendReaction;
+
+module.exports.sendReactions = function sendReactions(
+  channel,
+  messageTimestamp,
+  emojis
+) {
+  for (let i = 0; i < emojis.length; i++) {
+    setTimeout(() => {
+      sendReaction(channel, messageTimestamp, emojis[i]);
+    }, i * 10);
+  }
 };
 
 module.exports.sendEphemeral = function sendEphemeral(channel, user, text) {
