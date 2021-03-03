@@ -35,16 +35,22 @@ function sendReaction(channel, messageTimestamp, emoji) {
 
 module.exports.sendReaction = sendReaction;
 
+function chainReact(channel, messageTimestamp, emojis) {
+  const [current, ...rest] = emojis;
+  return sendReaction(channel, messageTimestamp, current).then(({ ok }) => {
+    if (ok) {
+      return chainReact(channel, messageTimestamp, rest);
+    }
+    return null;
+  });
+}
+
 module.exports.sendReactions = function sendReactions(
   channel,
   messageTimestamp,
   emojis
 ) {
-  for (let i = 0; i < emojis.length; i++) {
-    setTimeout(() => {
-      sendReaction(channel, messageTimestamp, emojis[i]);
-    }, i * 100);
-  }
+  chainReact(channel, messageTimestamp, emojis);
 };
 
 module.exports.sendEphemeral = function sendEphemeral(channel, user, text) {
