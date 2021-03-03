@@ -22,5 +22,7 @@ module.exports.TACO_EMOJIS = [
 module.exports.NEGATACO_PHRASES = [
   emojify('dang'),
   emojify('#rude'),
-  emojify('really?')
+  emojify('really?'),
+  emojify('thatsrough'),
+  emojify('whoopsiedaisy!')
 ];
