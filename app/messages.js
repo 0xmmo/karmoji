@@ -143,12 +143,14 @@ module.exports.messages = [
     }
 
     const count = mentions.length;
-    const emojis = selectTacoEmojis(count);
-    sendReactions(channel, messageTimestamp, emojis);
 
     if (count > 3) {
+      sendReaction(channel, messageTimestamp, 'tacopalooza');
       sendImage(channel, 'https://i.imgur.com/4Ldx8uf.jpg');
     }
+
+    const emojis = selectTacoEmojis(count);
+    sendReactions(channel, messageTimestamp, emojis);
   },
   // negatacos
   (text, channel, messageTimestamp) => {
