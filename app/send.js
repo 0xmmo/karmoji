@@ -52,13 +52,3 @@ module.exports.sendReactions = function sendReactions(
 ) {
   chainReact(channel, messageTimestamp, emojis);
 };
-
-module.exports.sendEphemeral = function sendEphemeral(channel, user, text) {
-  return web.chat
-    .postEphemeral({
-      channel,
-      user,
-      text
-    })
-    .catch(console.error);
-};
