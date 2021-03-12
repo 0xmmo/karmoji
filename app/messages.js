@@ -1,12 +1,6 @@
-const {
-  sendReaction,
-  sendReactions,
-  sendImage,
-  sendMessage,
-  sendEphemeral
-} = require('./send');
+const { sendReaction, sendReactions, sendImage } = require('./send');
 const { textIncludes } = require('./find');
-const { shuffle, emojify } = require('./utils');
+const { shuffle } = require('./utils');
 const { giveTaco } = require('./database');
 const { TACO_EMOJIS, NEGATACO_PHRASES } = require('./constants');
 
@@ -79,50 +73,6 @@ function selectTacoEmojis(count) {
   return emojis.slice(0, count);
 }
 
-function spamReaction(channel, user, messageTimestamp, spams) {
-  switch (spams) {
-    case 1:
-      sendReaction(channel, messageTimestamp, 'hand');
-      break;
-    case 2:
-      sendReactions(channel, messageTimestamp, emojify('?'));
-      break;
-    case 3:
-      sendReaction(channel, messageTimestamp, 'thinking_face');
-      break;
-    case 4:
-      sendReactions(channel, messageTimestamp, emojify('??'));
-      break;
-    case 5:
-      sendReactions(channel, messageTimestamp, emojify('um'));
-      break;
-    case 6:
-      sendMessage(channel, 'BTW, I stop counting at 5 tacos a day per person');
-      break;
-    case 7:
-      sendImage(
-        channel,
-        'https://media0.giphy.com/media/zCfeMBYXjY9yM/giphy.gif'
-      );
-      break;
-    case 8:
-      sendEphemeral(
-        channel,
-        user,
-        'I have created a new emoji just for this situation, though. Would you like to see it?'
-      );
-      break;
-    case 9:
-      sendEphemeral(channel, user, ':taco-jon:');
-      break;
-    case 10:
-      sendEphemeral(channel, user, 'Pretty cool, right?');
-      break;
-    default:
-      sendReaction(channel, messageTimestamp, 'taco-jon');
-  }
-}
-
 module.exports.messages = [
   // tacos
   (text, channel, messageTimestamp, users, userFrom) => {
@@ -134,7 +84,7 @@ module.exports.messages = [
 
     const spams = trackTacos(userFrom, users);
     if (spams > 0) {
-      spamReaction(channel, userFrom, messageTimestamp, spams);
+      sendReaction(channel, messageTimestamp, 'taco-jon');
       return;
     }
 
